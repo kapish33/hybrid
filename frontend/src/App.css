@@ -1,3 +1,6 @@
 ::-webkit-scrollbar {
     display: none;
 }
+.listOfItems{
+    height: 200px;
+}

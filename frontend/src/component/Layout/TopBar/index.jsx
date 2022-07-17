@@ -88,33 +88,28 @@ const TopBar = () => {
               className='block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm placeholder:italic placeholder:text-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm'
               placeholder='Search for anything...'
             />
-            <span className='listOfItems'>
-              {list.map((item) => {
-                return (
-                  <div
-                    onClick={() => naviagte(`/item/${item.objectID}`)}
-                    key={item.created_at}
-                    className='bg-amber-400 w-100 px-2'
-                  >
-                    {item.title}
-                  </div>
-                );
-              })}
-            </span>
+            <span className='listOfItems overflow-y-auto'>
+          {list.map((item) => {
+            return (
+              <div
+                onClick={() => naviagte(`/item/${item.objectID}`)}
+                key={item.created_at}
+                className='bg-amber-200 w-100 px-2 py-2  w-full '
+              >
+                {item.title}
+              </div>
+            );
+          })}
+        </span>
           </label>
         </div>
         <div>
           <div className='hidden md:block '>
-            <Badge
-              onClick={() => navigate('/cart')}
-              badgeContent={4}
-              color='primary'
-            >
-              <ShoppingCartIcon sx={{ color: green[400] }} />
-            </Badge>
             {routes.map((route, index) => {
               return (
-                <Link key={index} to={route.path}>
+                <Link key={index} onClick={()=>{
+                  window.open(route.path, '_blank');
+                }} to={route.path}>
                   <Badge className='pl-2' badgeContent={0} color='secondary'>
                     <RouteButton
                       Icon={route.icon}
@@ -164,13 +159,13 @@ const TopBar = () => {
           className='w-[98%] block bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm placeholder:italic placeholder:text-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm'
           placeholder='Search for anything...'
         />
-        <span className='listOfItems'>
+        <span className='listOfItems overflow-y-auto'>
           {list.map((item) => {
             return (
               <div
                 onClick={() => naviagte(`/item/${item.objectID}`)}
                 key={item.created_at}
-                className='bg-amber-400 w-100 px-2'
+                className='bg-amber-200 w-100 px-2 py-2  w-full '
               >
                 {item.title}
               </div>

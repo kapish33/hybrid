@@ -14,25 +14,28 @@ export default function FixedBottomNavigation() {
   return (
     <div className='visible md:hidden'>
       <Box sx={{ pb: 7, }} ref={ref}>
-        {/* <CssBaseline /> */}
         <Paper
           sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }}
           elevation={3}
         >
           <BottomNavigation
-          // style={{
-          //   height: '65px',
-          // }}
             showLabels
             value={value}
             onChange={(event, newValue) => {
               setValue(newValue);
             }}
           >
-            <BottomNavigationAction label='Call Us' icon={<AddIcCallIcon />} />
-            <BottomNavigationAction label='WhatsApp' icon={<WhatsAppIcon />} />
+            <BottomNavigationAction onClick={()=>{
+              window.location.href = 'tel:918707559369';
+            }} label='Call Us' icon={<AddIcCallIcon />} />
+            <BottomNavigationAction onClick={()=>{
+              window.location.href = 'https://api.whatsapp.com/send?phone=918707559369&text=Say%20We%20Have%20An%20Offer%20For%20You';
+            }} label='WhatsApp' icon={<WhatsAppIcon />} />
             <BottomNavigationAction
-              label='Call Back'
+              onClick={() => {
+                window.location.href = 'mailto:kapishsingh2209@gmail.com';
+              }}
+              label='Feed Back'
               icon={<SupportAgentIcon />}
             />
           </BottomNavigation>

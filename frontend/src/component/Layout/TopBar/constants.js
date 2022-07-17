@@ -11,13 +11,13 @@ export const routes = [
     color: "secondary"
   },
   {
-    path: '/about',
+    path: 'https://kapish.netlify.app',
     name: 'About',
     icon: InfoIcon,
     color: "secondary"
   },
   {
-    path: '/contact',
+    path: 'tel:+8707559369',
     name: 'Contact',
     icon: AddIcCallIcon,
     color: "secondary"
