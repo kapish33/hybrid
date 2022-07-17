@@ -2,9 +2,9 @@ import { createContext, useState } from 'react';
 export const DataContext = createContext();
 
 export const DataContextProvider = ({ children }) => {
-  const [serachValue, setSearchValue] = useState('');
+  const [serachValue, setSearchValue] = useState('story');
   const [array, setArray] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(false);
 
   const fillArray = async () => {

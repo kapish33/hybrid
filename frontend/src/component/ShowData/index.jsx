@@ -1,8 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { DataContext } from '../../context/DataContext';
 
 const ShowData = () => {
-  const { array, error, isLoading } = useContext(DataContext);
+  const { array, error, isLoading, fillArray } = useContext(DataContext);
+  useEffect(() => {
+    fillArray();
+  }, []);
   return (
     <div className='container mx-auto py-4'>
       {isLoading ? (
@@ -13,7 +16,7 @@ const ShowData = () => {
         </div>
       ) : error ? (
         <div className='text-center'>
-          <h1>Error</h1>
+          <h1>Error</h1>``
           <p>{error.message}</p>
         </div>
       ) : (

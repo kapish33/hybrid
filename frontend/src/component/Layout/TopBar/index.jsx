@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { routes } from './constants';
 import RouteButton from './RouteButton';
@@ -11,12 +11,14 @@ import TemporaryDrawer from './Drawer';
 import { DataContext } from '../../../context/DataContext';
 
 const TopBar = () => {
-  const { array, setSearchValue, serachValue, fillArray,error,isLoading} = useContext(DataContext);
+  const { array, setSearchValue, serachValue, fillArray, error, isLoading } =
+    useContext(DataContext);
+  const [list, setList] = useState([]);
   const [value, setValue] = useState('');
   const [dbValue, saveToDb] = useState('');
   const navigate = useNavigate();
   const debouncedSave = useCallback(
-    debounce((nextValue) => saveToDb(nextValue), 1000),
+    debounce((nextValue) => saveToDb(nextValue), 300),
     [] // will be created only once initially
   );
 
@@ -26,17 +28,35 @@ const TopBar = () => {
     // Even though handleChange is created on each render and executed
     // it references the same debouncedSave that was created initially
     debouncedSave(nextValue);
+    const fItems = document.querySelectorAll('.listOfItems');
+    fItems.forEach((item) => {
+      item.classList.add('absolute');
+    })
+    const body = document.querySelector('body');
+    body.addEventListener('click', () => {
+      setList([]);
+      fItems.classList.remove('absolute');
+    });
   };
-  const performSearch = async() => {
+  const performSearch = async () => {
     setSearchValue(value);
     await fillArray(value);
   };
+  useEffect(() => {
+    if(dbValue!=='') {
+      fetch(`http://hn.algolia.com/api/v1/search?query=${dbValue}`)
+      .then((response) => response.json())
+      .then((result) => setList(result.hits))
+      .catch((error) => console.log('error', error));
+    }
+    return ;
+  }, [dbValue]);
   console.log(array);
   return (
     <div className='py-4 px-2 drop-shadow bg-black backdrop-opacity-20 sticky top-0 z-10 '>
       <nav className='container mx-auto text-cyan-400 flex justify-between'>
-        <div onClick={() => navigate('/')} className='flex-none'>
-          Your Logo!
+        <div onClick={() => navigate('/')} className='flex-none py-2'>
+          Home
         </div>
         <div className='hidden md:block flex-auto mx-6'>
           {/* serach Bar */}
@@ -67,6 +87,11 @@ const TopBar = () => {
               className='block bg-white w-full border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm placeholder:italic placeholder:text-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm'
               placeholder='Search for anything...'
             />
+            <span className='listOfItems'>
+          {list.map((item) => {
+            return <div className='bg-amber-400 w-100 px-2'>{item.title}</div>;
+          })}
+        </span>
           </label>
         </div>
         <div>
@@ -130,6 +155,11 @@ const TopBar = () => {
           className='w-[98%] block bg-white border border-slate-300 rounded-md py-2 pl-9 pr-3 shadow-sm placeholder:italic placeholder:text-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm'
           placeholder='Search for anything...'
         />
+        <span className='listOfItems'>
+          {list.map((item) => {
+            return <div className='bg-amber-400 w-100 px-2'>{item.title}</div>;
+          })}
+        </span>
       </label>
     </div>
   );
