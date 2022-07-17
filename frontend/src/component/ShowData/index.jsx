@@ -16,7 +16,7 @@ const ShowData = () => {
         </div>
       ) : error ? (
         <div className='text-center'>
-          <h1>Error</h1>``
+          <h1>Error</h1>
           <p>{error.message}</p>
         </div>
       ) : (

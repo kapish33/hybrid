@@ -13,6 +13,7 @@ import { DataContext } from '../../../context/DataContext';
 const TopBar = () => {
   const { array, setSearchValue, serachValue, fillArray, error, isLoading } =
     useContext(DataContext);
+  const naviagte = useNavigate();
   const [list, setList] = useState([]);
   const [value, setValue] = useState('');
   const [dbValue, saveToDb] = useState('');
@@ -31,7 +32,7 @@ const TopBar = () => {
     const fItems = document.querySelectorAll('.listOfItems');
     fItems.forEach((item) => {
       item.classList.add('absolute');
-    })
+    });
     const body = document.querySelector('body');
     body.addEventListener('click', () => {
       setList([]);
@@ -43,15 +44,15 @@ const TopBar = () => {
     await fillArray(value);
   };
   useEffect(() => {
-    if(dbValue!=='') {
+    if (dbValue !== '') {
       fetch(`http://hn.algolia.com/api/v1/search?query=${dbValue}`)
-      .then((response) => response.json())
-      .then((result) => setList(result.hits))
-      .catch((error) => console.log('error', error));
+        .then((response) => response.json())
+        .then((result) => setList(result.hits))
+        .catch((error) => console.log('error', error));
     }
-    return ;
+    return;
   }, [dbValue]);
-  console.log(array);
+  console.log(list);
   return (
     <div className='py-4 px-2 drop-shadow bg-black backdrop-opacity-20 sticky top-0 z-10 '>
       <nav className='container mx-auto text-cyan-400 flex justify-between'>
@@ -88,10 +89,18 @@ const TopBar = () => {
               placeholder='Search for anything...'
             />
             <span className='listOfItems'>
-          {list.map((item) => {
-            return <div className='bg-amber-400 w-100 px-2'>{item.title}</div>;
-          })}
-        </span>
+              {list.map((item) => {
+                return (
+                  <div
+                    onClick={() => naviagte(`/item/${item.objectID}`)}
+                    key={item.created_at}
+                    className='bg-amber-400 w-100 px-2'
+                  >
+                    {item.title}
+                  </div>
+                );
+              })}
+            </span>
           </label>
         </div>
         <div>
@@ -157,7 +166,15 @@ const TopBar = () => {
         />
         <span className='listOfItems'>
           {list.map((item) => {
-            return <div className='bg-amber-400 w-100 px-2'>{item.title}</div>;
+            return (
+              <div
+                onClick={() => naviagte(`/item/${item.objectID}`)}
+                key={item.created_at}
+                className='bg-amber-400 w-100 px-2'
+              >
+                {item.title}
+              </div>
+            );
           })}
         </span>
       </label>
