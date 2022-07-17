@@ -11,8 +11,7 @@ import TemporaryDrawer from './Drawer';
 import { DataContext } from '../../../context/DataContext';
 
 const TopBar = () => {
-  const { array, setSearchValue, serachValue, fillArray, error, isLoading } =
-    useContext(DataContext);
+  const { setSearchValue, fillArray } = useContext(DataContext);
   const naviagte = useNavigate();
   const [list, setList] = useState([]);
   const [value, setValue] = useState('');
@@ -89,27 +88,31 @@ const TopBar = () => {
               placeholder='Search for anything...'
             />
             <span className='listOfItems overflow-y-auto'>
-          {list.map((item) => {
-            return (
-              <div
-                onClick={() => naviagte(`/item/${item.objectID}`)}
-                key={item.created_at}
-                className='bg-amber-200 w-100 px-2 py-2  w-full '
-              >
-                {item.title}
-              </div>
-            );
-          })}
-        </span>
+              {list.map((item) => {
+                return (
+                  <div
+                    onClick={() => naviagte(`/item/${item.objectID}`)}
+                    key={item.created_at}
+                    className='bg-amber-200 w-100 px-2 py-2  w-full '
+                  >
+                    {item.title}
+                  </div>
+                );
+              })}
+            </span>
           </label>
         </div>
         <div>
           <div className='hidden md:block '>
             {routes.map((route, index) => {
               return (
-                <Link key={index} onClick={()=>{
-                  window.open(route.path, '_blank');
-                }} to={route.path}>
+                <Link
+                  key={index}
+                  onClick={() => {
+                    window.open(route.path, '_blank');
+                  }}
+                  to={route.path}
+                >
                   <Badge className='pl-2' badgeContent={0} color='secondary'>
                     <RouteButton
                       Icon={route.icon}
