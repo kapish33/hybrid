@@ -33,4 +33,30 @@ router.post('/', authenticater, async (req, res) => {
   }
 });
 
+// send all catalogs of a user
+router.get('/', async (req, res) => {
+  try {
+    const catalogs = await catalogsModal.find();
+    res.status(200).json({ catalogs });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  try {
+    const catalog = await catalogsModal.findOne({
+      seller: req.params.id,
+    });
+    if (!catalog)
+      return res.status(400).json({
+        status: 'failed',
+        message: 'Please provide a valid catalog',
+      });
+    res.status(200).json({ catalog });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
 module.exports = router;
