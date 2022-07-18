@@ -1,6 +1,8 @@
 const express = require('express');
 
 const { register, login } = require('./controllers/auth.controller');
+const catalogsController = require('./controllers/catalogs.controller');
+const productsController = require('./controllers/product.controller');
 
 const cors = require('cors');
 
@@ -11,5 +13,7 @@ app.use(cors());
 
 app.post('/api/auth/register', register);
 app.post('/api/auth/login', login);
+app.use('/api/seller/create-catalog', catalogsController);
+app.use('/api/seller/orders', productsController);
 
 module.exports = app;

@@ -1,3 +1,17 @@
-// A catalog belongs to a seller
-// One seller can have one catalog
-// A catalog consists of Products
+
+const { Schema, model } = require('mongoose');
+
+const catalogSchema = new Schema(
+  {
+    seller: {
+      type: Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+    },
+  },
+  {
+    versionKey: false,
+  }
+);
+
+module.exports = model('Catalog', catalogSchema);
